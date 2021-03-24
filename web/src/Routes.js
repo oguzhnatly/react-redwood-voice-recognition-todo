@@ -9,10 +9,12 @@
 
 import { Router, Route } from '@redwoodjs/router'
 import NotFoundPage from 'src/pages/NotFoundPage/NotFoundPage.tsx'
+import LoginPage from 'src/pages/LoginPage/LoginPage.tsx'
 
 const Routes = () => {
   return (
     <Router>
+      <Route path="/login" page={LoginPage} name="login" />
       <Route notfound page={NotFoundPage} />
     </Router>
   )

@@ -6,13 +6,13 @@
     "target": "esnext",
     "module": "esnext",
     "moduleResolution": "node",
+    "jsx": "preserve",
     "baseUrl": "./",
     "paths": {
       "src/*": ["./src/*"]
     },
     "typeRoots": ["../node_modules/@types", "../.redwood"],
-    "types": ["jest"],
-    "jsx": "preserve",
+    "types": ["jest"]
   },
   "include": ["src", "../.redwood/globals"]
 }
