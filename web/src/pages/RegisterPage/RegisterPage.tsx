@@ -1,9 +1,9 @@
 import React, { FC } from 'react'
 import { Form, Submit } from '@redwoodjs/forms'
 import Input from 'src/components/Input/Input'
-import { Link, routes } from '@redwoodjs/router'
+import { Link, routes } from "@redwoodjs/router";
 
-const LoginPage: FC = (): JSX.Element => {
+const RegisterPage: FC = (): JSX.Element => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
@@ -14,7 +14,7 @@ const LoginPage: FC = (): JSX.Element => {
             alt="Workflow"
           />
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Sign in
+            Sign up
           </h2>
         </div>
         <Form onSubmit={() => {}} className="mt-8 space-y-6">
@@ -28,6 +28,14 @@ const LoginPage: FC = (): JSX.Element => {
             name="password"
             type="password"
             labelName="Password"
+            style={{ marginTop: 10 }}
+            validation={{ required: true }}
+            inputStyle={{ marginTop: 10 }}
+          />
+          <Input
+            name="validate password"
+            type="password"
+            labelName="Validate Password"
             style={{ marginTop: 10 }}
             validation={{ required: true }}
             inputStyle={{ marginTop: 10 }}
@@ -49,16 +57,16 @@ const LoginPage: FC = (): JSX.Element => {
                 />
               </svg>
             </span>
-            Sign In
+            Register
           </Submit>
         </Form>
         <hr />
         <div className="mt-3 sm:mt-0">
           <Link
-            to={routes.register()}
+            to={routes.login()}
             className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-700 bg-indigo-100 hover:bg-indigo-200 md:py-4 md:text-lg md:px-10"
           >
-            Don't have an account? Sign up
+            Sign In
           </Link>
         </div>
       </div>
@@ -66,4 +74,4 @@ const LoginPage: FC = (): JSX.Element => {
   )
 }
 
-export default LoginPage
+export default RegisterPage

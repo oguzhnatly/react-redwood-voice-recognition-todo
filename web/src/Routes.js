@@ -10,6 +10,7 @@
 import { Router, Route, Redirect, routes } from '@redwoodjs/router'
 import NotFoundPage from 'src/pages/NotFoundPage/NotFoundPage.tsx'
 import LoginPage from 'src/pages/LoginPage/LoginPage.tsx'
+import RegisterPage from 'src/pages/RegisterPage/RegisterPage.tsx'
 
 const HomePageRedirect = () => <Redirect to={routes.login()} />
 
@@ -18,6 +19,7 @@ const Routes = () => {
     <Router>
       <Route path="/" page={HomePageRedirect} name="home" />
       <Route path="/login" page={LoginPage} name="login" />
+      <Route path="/register" page={RegisterPage} name="register" />
       <Route notfound page={NotFoundPage} />
     </Router>
   )
