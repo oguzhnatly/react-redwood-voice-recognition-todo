@@ -42,6 +42,7 @@ const Input: FC<InputPropTypes> = (props): JSX.Element => {
   } = {
     name: inputName,
     className: `input ${inputThemeClass}`,
+    placeholder: inputName,
     errorClassName: `input error ${inputThemeClass} ${theme.input.errorBorderColor}`,
     style: props.inputStyle,
     validation: inputValidation,

@@ -1,12 +1,5 @@
 import React from 'react'
-import {
-  Form,
-  Label,
-  TextField,
-  PasswordField,
-  FieldError,
-  Submit,
-} from '@redwoodjs/forms'
+import { Form, Submit } from '@redwoodjs/forms'
 import Input from 'src/components/Input/Input'
 
 const LoginPage = () => {
