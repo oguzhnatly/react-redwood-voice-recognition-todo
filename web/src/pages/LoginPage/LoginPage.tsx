@@ -5,8 +5,9 @@ import {
   TextField,
   PasswordField,
   FieldError,
-  Submit
+  Submit,
 } from '@redwoodjs/forms'
+import Input from 'src/components/Input/Input'
 
 const LoginPage = () => {
   return (
@@ -23,44 +24,22 @@ const LoginPage = () => {
           </h2>
         </div>
         <Form onSubmit={() => {}} className="mt-8 space-y-6">
-          <div>
-            <Label name="email" className="label" errorClassName="label error">
-              Email Address
-            </Label>
-            <TextField
-              name="email"
-              className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-              errorClassName="input error"
-              validation={{
-                required: true,
-                pattern: {
-                  value: /[^@]+@[^\.]+\..+/,
-                },
-              }}
-            />
-            <FieldError name="email" className="error-message" />
-          </div>
+          <Input
+            name="email"
+            type="email"
+            labelName="Email Address"
+            inputStyle={{ marginTop: 10 }}
+          />
+          <Input
+            name="password"
+            type="password"
+            labelName="Password"
+            style={{ marginTop: 10 }}
+            validation={{ required: true }}
+            inputStyle={{ marginTop: 10 }}
+          />
 
-          <div>
-            <Label
-              name="password"
-              className="label"
-              errorClassName="label error"
-            >
-              Password
-            </Label>
-            <PasswordField
-              name="password"
-              className="input appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-              errorClassName="input error"
-              validation={{ required: true }}
-            />
-            <FieldError name="message" className="error-message" />
-          </div>
-
-          <Submit
-            className="button group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
+          <Submit className="button group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             <span className="absolute left-0 inset-y-0 flex items-center pl-3">
               <svg
                 className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
