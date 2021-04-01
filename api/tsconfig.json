@@ -11,7 +11,7 @@
       "src/*": ["./src/*"]
     },
     "typeRoots": ["../node_modules/@types", "../.redwood"],
-    "types": []
+    "types": ["jest"]
   },
   "include": ["src"]
 }

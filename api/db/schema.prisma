@@ -14,6 +14,7 @@ model User {
   Id          String    @id @default(uuid())
   FirstName   String
   LastName    String
+  Password    String
   Email       String    @unique
   CreatedDate DateTime  @default(now())
 }

@@ -1,4 +1,5 @@
 import React, { FC, useEffect } from 'react'
+import { useMutation,  } from '@redwoodjs/web'
 import { Form, Submit } from '@redwoodjs/forms'
 import { useForm, UseFormMethods } from 'react-hook-form'
 import Input from 'src/components/Input/Input'
@@ -6,12 +7,23 @@ import { Link, routes } from '@redwoodjs/router'
 import * as Yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 
-const RegisterPage: FC = (): JSX.Element => {
-  type formElements = {
-    email: string
-    password: string
-    passwordValidate: string
+type formElements = {
+  email: string
+  password: string
+  passwordValidate: string
+}
+
+const REGISTER_MUTATION = gql(`
+  mutation RegisterMutation($input: AddUser!) {
+    addUser(input: $input) {
+      Id
+      Email
+    }
   }
+`)
+
+const RegisterPage: FC = (): JSX.Element => {
+  const [registerMutation, { loading, error }] = useMutation(REGISTER_MUTATION)
 
   const SignupSchema = Yup.object().shape({
     email: Yup.string()
@@ -39,6 +51,22 @@ const RegisterPage: FC = (): JSX.Element => {
   // Watch form changes is required.
   form.watch()
 
+  function handleRegister(inputValues: formElements) {
+    console.log('inputValues', inputValues)
+    registerMutation({
+      variables: {
+        input: {
+          FirstName: 'firstname',
+          LastName: 'lastname',
+          Email: inputValues.email,
+          Password: inputValues.password,
+        },
+      },
+    })
+      .then(({ data: { addUser } }) => console.log('addUser', addUser))
+      .catch((r) => console.log('ERROR', r))
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
@@ -53,7 +81,7 @@ const RegisterPage: FC = (): JSX.Element => {
           </h2>
         </div>
         <Form
-          onSubmit={form.handleSubmit((d) => console.log(d))}
+          onSubmit={form.handleSubmit((d) => handleRegister(d))}
           className="mt-8 space-y-6"
         >
           <Input
@@ -108,7 +136,7 @@ const RegisterPage: FC = (): JSX.Element => {
                 />
               </svg>
             </span>
-            Register
+            {loading ? 'Signing Up..' : 'Register'}
           </Submit>
         </Form>
         <hr />
