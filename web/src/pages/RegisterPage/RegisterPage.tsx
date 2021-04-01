@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import { Form, Submit } from '@redwoodjs/forms'
 import { useForm, UseFormMethods } from 'react-hook-form'
 import Input from 'src/components/Input/Input'
@@ -15,27 +15,29 @@ const RegisterPage: FC = (): JSX.Element => {
 
   const SignupSchema = Yup.object().shape({
     email: Yup.string()
-      .min(5, 'Should minimum 5 length')
-      .min(15, 'Should minimum 15 length')
-      .required('Email is required.'),
+      .required('Email is required.')
+      .matches(/[^@]+@[^\.]+\..+/, 'Email is not valid.'),
     password: Yup.string()
+      .required('Password is required.')
       .min(5, 'Should minimum 5 length')
-      .min(15, 'Should minimum 15 length')
-      .required('Password is required.'),
+      .max(15, 'Should maximum 15 length'),
     passwordValidate: Yup.string()
-      .oneOf([Yup.ref('password'), null], 'Password do not match')
-      .required('Confirm password is required.'),
+      .required('Confirm password is required.')
+      .oneOf([Yup.ref('password'), null], 'Password do not match'),
   })
 
   const form: UseFormMethods<formElements> = useForm<formElements>({
     mode: 'onSubmit',
     reValidateMode: 'onChange',
-    defaultValues: {},
-    criteriaMode: 'firstError',
+    defaultValues: {
+      email: '',
+      password: '',
+      passwordValidate: '',
+    },
     resolver: yupResolver(SignupSchema),
-    shouldFocusError: true,
-    shouldUnregister: true,
   })
+  // Watch form changes is required.
+  form.watch()
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -51,7 +53,6 @@ const RegisterPage: FC = (): JSX.Element => {
           </h2>
         </div>
         <Form
-          formMethods={form}
           onSubmit={form.handleSubmit((d) => console.log(d))}
           className="mt-8 space-y-6"
         >
@@ -60,27 +61,36 @@ const RegisterPage: FC = (): JSX.Element => {
             forwardRef={form.register.apply('email')}
             type="email"
             labelName="Email Address"
+            placeholder={true}
+            value={form.getValues().email}
+            error={form.errors.email}
+            onChange={(e) => form.setValue('email', e.target.value)}
             inputStyle={{ marginTop: 10 }}
           />
-          {form.errors.email && <p>{form.errors.email.message}</p>}
           <Input
             name="password"
             forwardRef={form.register.apply('password')}
             type="password"
             labelName="Password"
+            placeholder={true}
+            value={form.getValues().password}
+            error={form.errors.password}
+            onChange={(e) => form.setValue('password', e.target.value)}
             style={{ marginTop: 10 }}
             inputStyle={{ marginTop: 10 }}
           />
-          {form.errors.email && <p>{form.errors.password.message}</p>}
           <Input
             name="passwordValidate"
             forwardRef={form.register.apply('passwordValidate')}
             type="password"
             labelName="Validate Password"
+            placeholder={true}
+            value={form.getValues().passwordValidate}
+            error={form.errors.passwordValidate}
+            onChange={(e) => form.setValue('passwordValidate', e.target.value)}
             style={{ marginTop: 10 }}
             inputStyle={{ marginTop: 10 }}
           />
-          {form.errors.email && <p>{form.errors.passwordValidate.message}</p>}
 
           <Submit className="button group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
             <span className="absolute left-0 inset-y-0 flex items-center pl-3">

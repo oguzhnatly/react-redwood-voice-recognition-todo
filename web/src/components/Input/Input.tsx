@@ -1,16 +1,21 @@
-import React, { FC, CSSProperties } from 'react'
+import React, { FC, CSSProperties, ChangeEvent } from 'react'
 import { theme } from 'src/../tailwind.config'
-import { Label, TextField, FieldError, PasswordField } from '@redwoodjs/forms'
+import { Label, TextField, PasswordField } from '@redwoodjs/forms'
+import { FieldError as inputErrorType } from 'react-hook-form'
 
 interface InputPropTypes {
   name: string
   labelName?: string
+  placeholder?: string | boolean
   type?: 'text' | 'email' | 'password'
   validation?: inputValidationType
+  error?: inputErrorType
   className?: string
   style?: CSSProperties
   inputStyle?: CSSProperties
   forwardRef?: HTMLInputElement
+  value?: string
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void
 }
 
 type inputValidationType = {
@@ -24,43 +29,29 @@ const Input: FC<InputPropTypes> = (props): JSX.Element => {
   const inputThemeClass: string =
     theme.input.classes.join(' ') + props.className
 
-  const defaultEmailValidation: inputValidationType = {
-    required: true,
-    pattern: {
-      value: /[^@]+@[^\.]+\..+/,
-      message: 'Please enter a valid email address.',
-    },
-  }
-
-  const inputValidation: inputValidationType =
-    props.type === 'email'
-      ? { ...defaultEmailValidation, ...props.validation }
-      : props.validation
-
-  const inputName: string =
-    props.name.charAt(0).toUpperCase() + props.name.slice(1)
-
   const inputProps: {
     [key: string]:
       | string
       | CSSProperties
       | Record<string, unknown>
       | HTMLInputElement
+      | ((e: ChangeEvent<HTMLInputElement>) => void)
   } = {
-    name: inputName,
+    name: props.name,
     className: `input ${inputThemeClass}`,
-    placeholder: inputName,
+    placeholder: props.placeholder === true ? props.labelName : undefined,
     errorClassName: `input error ${inputThemeClass} ${theme.input.errorBorderColor}`,
     style: props.inputStyle,
-    validation: inputValidation,
-    ref: props.forwardRef || null,
+    validation: props.validation || undefined,
+    ref: props.forwardRef || undefined,
+    value: props.value || undefined,
+    onChange: props.onChange || undefined,
   }
 
   return (
     <div style={props.style}>
       {props.labelName && (
         <Label
-          name={inputName}
           className="label"
           errorClassName={`label error ${theme.input.errorTextColor}`}
         >
@@ -72,10 +63,9 @@ const Input: FC<InputPropTypes> = (props): JSX.Element => {
       ) : (
         <PasswordField {...inputProps} />
       )}
-      <FieldError
-        name={inputName}
-        className={`error ${theme.input.errorTextColor}`}
-      />
+      {props.error && (
+        <span className="error-message">{props.error.message}</span>
+      )}
     </div>
   )
 }
