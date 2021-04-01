@@ -10,6 +10,7 @@ interface InputPropTypes {
   className?: string
   style?: CSSProperties
   inputStyle?: CSSProperties
+  forwardRef?: HTMLInputElement
 }
 
 type inputValidationType = {
@@ -32,13 +33,19 @@ const Input: FC<InputPropTypes> = (props): JSX.Element => {
   }
 
   const inputValidation: inputValidationType =
-    props.validation || (props.type === 'email' ? defaultEmailValidation : {})
+    props.type === 'email'
+      ? { ...defaultEmailValidation, ...props.validation }
+      : props.validation
 
   const inputName: string =
     props.name.charAt(0).toUpperCase() + props.name.slice(1)
 
   const inputProps: {
-    [key: string]: string | CSSProperties | Record<string, unknown>
+    [key: string]:
+      | string
+      | CSSProperties
+      | Record<string, unknown>
+      | HTMLInputElement
   } = {
     name: inputName,
     className: `input ${inputThemeClass}`,
@@ -46,6 +53,7 @@ const Input: FC<InputPropTypes> = (props): JSX.Element => {
     errorClassName: `input error ${inputThemeClass} ${theme.input.errorBorderColor}`,
     style: props.inputStyle,
     validation: inputValidation,
+    ref: props.forwardRef || null,
   }
 
   return (
@@ -64,7 +72,10 @@ const Input: FC<InputPropTypes> = (props): JSX.Element => {
       ) : (
         <PasswordField {...inputProps} />
       )}
-      <FieldError name={inputName} className={`error ${theme.input.errorTextColor}`} />
+      <FieldError
+        name={inputName}
+        className={`error ${theme.input.errorTextColor}`}
+      />
     </div>
   )
 }
