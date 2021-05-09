@@ -1,6 +1,6 @@
-# React - Typescript Redwood Voice Recognition Todo (Incomplete)
+# Login UI Web App, created with Typescript RedwoodJS, based on React.
 
-A Voice Recognition To-do Web App, created with Typescript RedwoodJS, based on React. Web Speech API and GraphQL are used, including Jest Unit Testing and Travis CI.
+Login UI Web App, created with Typescript RedwoodJS, based on React. GraphQL, Storybook and TailwindCSS are used.
 
 > **WARNING:** RedwoodJS software has not reached a stable version 1.0 and should not be considered suitable for production use. In the "make it work; make it right; make it fast" paradigm, Redwood is in the later stages of the "make it work" phase.
 
